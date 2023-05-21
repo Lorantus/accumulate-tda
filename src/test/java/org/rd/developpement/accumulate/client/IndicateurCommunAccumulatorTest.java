@@ -32,7 +32,7 @@ class IndicateurCommunAccumulatorTest {
     void ajouteUneReferenceLorsDeLAccumulation() {
         // ARRANGE
         IndicateurReference indicateurReference = IndicateurReferenceFactory.INSTANCE
-            .create("indicateur", "reference", Set.of("choix", "autre-choix"), "critere");
+            .create("indicateur", "reference", Set.of("choix", "autre-choix"));
 
         indicateurReference.accumulate(accumulator);
 
@@ -41,8 +41,8 @@ class IndicateurCommunAccumulatorTest {
 
         // ASSERT
         assertThat(addIndicateurCommun)
-            .extracting(IndicateurCommun::getIndicateurId, IndicateurCommun::getReferenceId, IndicateurCommun::getCritere)
-            .containsExactly(tuple("indicateur", "reference", "critere"));
+            .extracting(IndicateurCommun::getIndicateurId, IndicateurCommun::getReferenceId)
+            .containsExactly(tuple("indicateur", "reference"));
 
         assertThat(addChoixCommun)
             .extracting(ChoixCommun::getIndicateurId, ChoixCommun::getChoixId, ChoixCommun::getReferenceChoix)
@@ -57,7 +57,7 @@ class IndicateurCommunAccumulatorTest {
     void supprimeUneReferenceLorsDeLAccumulation() {
         // ARRANGE
         IndicateurReference indicateurReference = IndicateurReferenceFactory.INSTANCE
-            .create("indicateur", "", Set.of("choix", "autre-choix"), "critere");
+            .create("indicateur", "", Set.of("choix", "autre-choix"));
 
         indicateurReference.accumulate(accumulator);
 

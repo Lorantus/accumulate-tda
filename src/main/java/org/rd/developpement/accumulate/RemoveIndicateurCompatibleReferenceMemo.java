@@ -2,15 +2,15 @@ package org.rd.developpement.accumulate;
 
 import java.util.Set;
 
-class RemoveIndicateurReferenceMemo implements IndicateurCommunMemo {
+class RemoveIndicateurCompatibleReferenceMemo implements IndicateurCommunCompatibleMemo {
     private final String indicateurId;
 
-    public RemoveIndicateurReferenceMemo(String indicateurId) {
+    public RemoveIndicateurCompatibleReferenceMemo(String indicateurId) {
         this.indicateurId = indicateurId;
     }
 
     @Override
-    public void allocate(Set<IndicateurCommun> indicateurToPut, Set<ChoixCommun> addChoixCommun) {
+    public void allocate(Set<IndicateurCommunCompatible> indicateurToPut, Set<ChoixCommun> addChoixCommun) {
     }
 
     @Override
