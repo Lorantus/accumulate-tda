@@ -5,9 +5,9 @@ import java.util.Set;
 public enum IndicateurReferenceFactory {
     INSTANCE;
 
-    public IndicateurReference create(String indicateurId, String referenceId, Set<String> referenceChoix) {
-        return referenceId.isBlank() ?
-            new RemoveIndicateurReference(indicateurId) :
-            new AddIndicateurReference(indicateurId, referenceId, referenceChoix);
+    public IndicateurReference create(String indicateur, String reference, Set<String> referenceChoix) {
+        return reference.isBlank() ?
+            new RemoveIndicateurReference(indicateur) :
+            new AddIndicateurReference(indicateur, reference, referenceChoix);
     }
 }

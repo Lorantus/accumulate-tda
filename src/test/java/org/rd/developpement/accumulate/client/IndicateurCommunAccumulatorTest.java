@@ -41,11 +41,11 @@ class IndicateurCommunAccumulatorTest {
 
         // ASSERT
         assertThat(addIndicateurCommun)
-            .extracting(IndicateurCommun::getIndicateurId, IndicateurCommun::getReferenceId)
+            .extracting(IndicateurCommun::getIndicateur, IndicateurCommun::getReference)
             .containsExactly(tuple("indicateur", "reference"));
 
         assertThat(addChoixCommun)
-            .extracting(ChoixCommun::getIndicateurId, ChoixCommun::getChoixId, ChoixCommun::getReferenceChoix)
+            .extracting(ChoixCommun::getIndicateur, ChoixCommun::getChoixId, ChoixCommun::getReferenceChoix)
             .containsExactlyInAnyOrder(
                 tuple("indicateur", "reference", "choix"),
                 tuple("indicateur", "reference", "autre-choix"));

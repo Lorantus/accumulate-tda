@@ -1,14 +1,14 @@
 package org.rd.developpement.accumulate;
 
 class RemoveIndicateurCompatibleReference implements IndicateurCompatibleReference {
-    private final String indicateurId;
+    private final String indicateur;
 
-    RemoveIndicateurCompatibleReference(String indicateurId) {
-        this.indicateurId = indicateurId;
+    RemoveIndicateurCompatibleReference(String indicateur) {
+        this.indicateur = indicateur;
     }
 
     @Override
     public void accumulate(IndicateurCommunCompatibleAccumulator accumulator) {
-        accumulator.remove(new RemoveIndicateurCompatibleReferenceMemo(indicateurId));
+        accumulator.remove(new RemoveIndicateurCompatibleReferenceMemo(indicateur));
     }
 }

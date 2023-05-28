@@ -39,11 +39,11 @@ class IndicateurCommunCompatibleAccumulatorTest {
 
         // ASSERT
         assertThat(indicateurCommunCompatibles)
-            .extracting(IndicateurCommunCompatible::getIndicateurId, IndicateurCommunCompatible::getReferenceId)
+            .extracting(IndicateurCommunCompatible::getIndicateur, IndicateurCommunCompatible::getReference)
             .containsExactly(tuple("indicateur", "reference"));
 
         assertThat(addChoixCommun)
-            .extracting(ChoixCommun::getIndicateurId, ChoixCommun::getChoixId, ChoixCommun::getReferenceChoix)
+            .extracting(ChoixCommun::getIndicateur, ChoixCommun::getChoixId, ChoixCommun::getReferenceChoix)
             .containsExactlyInAnyOrder(
                 tuple("indicateur", "reference", "choix"),
                 tuple("indicateur", "reference", "autre-choix"));

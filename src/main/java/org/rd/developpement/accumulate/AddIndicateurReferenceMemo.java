@@ -5,27 +5,27 @@ import java.util.Set;
 import static java.util.stream.Collectors.toSet;
 
 class AddIndicateurReferenceMemo implements IndicateurCommunMemo {
-    private final String indicateurId;
-    private final String referenceId;
+    private final String indicateur;
+    private final String reference;
     private final Set<String> referenceChoix;
 
-    public AddIndicateurReferenceMemo(String indicateurId, String referenceId, Set<String> referenceChoix) {
-        this.indicateurId = indicateurId;
-        this.referenceId = referenceId;
+    public AddIndicateurReferenceMemo(String indicateur, String reference, Set<String> referenceChoix) {
+        this.indicateur = indicateur;
+        this.reference = reference;
         this.referenceChoix = referenceChoix;
     }
 
     @Override
     public void allocate(Set<IndicateurCommun> indicateurToPut, Set<ChoixCommun> addChoixCommun) {
-        indicateurToPut.add(new IndicateurCommun(indicateurId, referenceId));
+        indicateurToPut.add(new IndicateurCommun(indicateur, reference));
         Set<ChoixCommun> references = referenceChoix.stream()
-            .map(referenceChoix -> new ChoixCommun(indicateurId, referenceId, referenceChoix))
+            .map(referenceChoix -> new ChoixCommun(indicateur, reference, referenceChoix))
             .collect(toSet());
         addChoixCommun.addAll(references);
     }
 
     @Override
     public void release(Set<String> indicateurToRemove) {
-        indicateurToRemove.add(indicateurId);
+        indicateurToRemove.add(indicateur);
     }
 }

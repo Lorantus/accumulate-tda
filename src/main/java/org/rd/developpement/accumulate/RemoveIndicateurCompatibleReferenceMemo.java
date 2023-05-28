@@ -3,10 +3,10 @@ package org.rd.developpement.accumulate;
 import java.util.Set;
 
 class RemoveIndicateurCompatibleReferenceMemo implements IndicateurCommunCompatibleMemo {
-    private final String indicateurId;
+    private final String indicateur;
 
-    public RemoveIndicateurCompatibleReferenceMemo(String indicateurId) {
-        this.indicateurId = indicateurId;
+    public RemoveIndicateurCompatibleReferenceMemo(String indicateur) {
+        this.indicateur = indicateur;
     }
 
     @Override
@@ -15,6 +15,6 @@ class RemoveIndicateurCompatibleReferenceMemo implements IndicateurCommunCompati
 
     @Override
     public void release(Set<String> indicateurToRemove) {
-        indicateurToRemove.add(indicateurId);
+        indicateurToRemove.add(indicateur);
     }
 }

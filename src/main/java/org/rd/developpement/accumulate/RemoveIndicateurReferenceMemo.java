@@ -3,10 +3,10 @@ package org.rd.developpement.accumulate;
 import java.util.Set;
 
 class RemoveIndicateurReferenceMemo implements IndicateurCommunMemo {
-    private final String indicateurId;
+    private final String indicateur;
 
-    public RemoveIndicateurReferenceMemo(String indicateurId) {
-        this.indicateurId = indicateurId;
+    public RemoveIndicateurReferenceMemo(String indicateur) {
+        this.indicateur = indicateur;
     }
 
     @Override
@@ -15,6 +15,6 @@ class RemoveIndicateurReferenceMemo implements IndicateurCommunMemo {
 
     @Override
     public void release(Set<String> indicateurToRemove) {
-        indicateurToRemove.add(indicateurId);
+        indicateurToRemove.add(indicateur);
     }
 }

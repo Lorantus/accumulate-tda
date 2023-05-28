@@ -1,14 +1,14 @@
 package org.rd.developpement.accumulate;
 
 class RemoveIndicateurReference implements IndicateurReference {
-    private final String indicateurId;
+    private final String indicateur;
 
-    RemoveIndicateurReference(String indicateurId) {
-        this.indicateurId = indicateurId;
+    RemoveIndicateurReference(String indicateur) {
+        this.indicateur = indicateur;
     }
 
     @Override
     public void accumulate(IndicateurCommunAccumulator accumulator) {
-        accumulator.remove(new RemoveIndicateurReferenceMemo(indicateurId));
+        accumulator.remove(new RemoveIndicateurReferenceMemo(indicateur));
     }
 }
