@@ -9,27 +9,37 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
+import static org.rd.developpement.accumulate.IndicateurCompatibleReferenceFactory.INDICATEUR_COMPATIBLE_REFERENCE_FACTORY;
 
 class IndicateurCommunCompatibleAccumulatorTest {
-    private Set<IndicateurCommunCompatible> indicateurCommunCompatibles;
-    private Set<ChoixCommun> addChoixCommun;
+    private Set<IndicateurCommunCompatible> addIndicateurCommunCompatibles;
     private Set<String> removeIndicateurCommunCompatibles;
 
-    private IndicateurCommunCompatibleAccumulator accumulator;
+    private Set<IndicateurCommun> addIndicateurCommuns;
+    private Set<ChoixCommun> addChoixCommuns;
+    private Set<String> removeIndicateurCommuns;
+
+    private ClientIndicateurCommunCompatibleAccumulator accumulator;
 
     @BeforeEach
     void setUp() {
-        indicateurCommunCompatibles = new HashSet<>();
+        addIndicateurCommunCompatibles = new HashSet<>();
         removeIndicateurCommunCompatibles = new HashSet<>();
-        addChoixCommun = new HashSet<>();
 
-        accumulator = new IndicateurCommunCompatibleAccumulator(indicateurCommunCompatibles::addAll, removeIndicateurCommunCompatibles::addAll, addChoixCommun::addAll);
+        addIndicateurCommuns = new HashSet<>();
+        addChoixCommuns = new HashSet<>();
+        removeIndicateurCommuns = new HashSet<>();
+
+        accumulator = new ClientIndicateurCommunCompatibleAccumulator(
+            addIndicateurCommunCompatibles::addAll, removeIndicateurCommunCompatibles::addAll);
+        accumulator.setIndicateurCommunAccumulator(
+            new ClientIndicateurCommunAccumulator(addIndicateurCommuns::addAll, removeIndicateurCommuns::addAll, addChoixCommuns::addAll));
     }
 
     @Test
     void ajouteUneReferenceLorsDeLAccumulation() {
         // ARRANGE
-        IndicateurCompatibleReference indicateurCompatibleReference = IndicateurCompatibleReferenceFactory.INSTANCE
+        IndicateurCompatibleReference indicateurCompatibleReference = INDICATEUR_COMPATIBLE_REFERENCE_FACTORY.getInstance()
             .create("indicateur", "reference", Set.of("choix", "autre-choix"), "critere");
 
         indicateurCompatibleReference.accumulate(accumulator);
@@ -38,23 +48,29 @@ class IndicateurCommunCompatibleAccumulatorTest {
         accumulator.metAJour();
 
         // ASSERT
-        assertThat(indicateurCommunCompatibles)
-            .extracting(IndicateurCommunCompatible::getIndicateur, IndicateurCommunCompatible::getReference)
+        assertThat(addIndicateurCommunCompatibles)
+            .extracting(IndicateurCommunCompatible::getIndicateur, IndicateurCommunCompatible::getReference, IndicateurCommunCompatible::getCritere)
+            .containsExactly(tuple("indicateur", "reference", "critere"));
+
+        assertThat(removeIndicateurCommunCompatibles).isEmpty();
+
+        assertThat(addIndicateurCommuns)
+            .extracting(IndicateurCommun::getIndicateur, IndicateurCommun::getReference)
             .containsExactly(tuple("indicateur", "reference"));
 
-        assertThat(addChoixCommun)
-            .extracting(ChoixCommun::getIndicateur, ChoixCommun::getChoixId, ChoixCommun::getReferenceChoix)
+        assertThat(addChoixCommuns)
+            .extracting(ChoixCommun::getIndicateur, ChoixCommun::getChoix, ChoixCommun::getReferenceChoix)
             .containsExactlyInAnyOrder(
                 tuple("indicateur", "reference", "choix"),
                 tuple("indicateur", "reference", "autre-choix"));
 
-        assertThat(removeIndicateurCommunCompatibles).isEmpty();
+        assertThat(removeIndicateurCommuns).isEmpty();
     }
 
     @Test
     void supprimeUneReferenceLorsDeLAccumulation() {
         // ARRANGE
-        IndicateurCompatibleReference indicateurCompatibleReference = IndicateurCompatibleReferenceFactory.INSTANCE
+        IndicateurCompatibleReference indicateurCompatibleReference = INDICATEUR_COMPATIBLE_REFERENCE_FACTORY
             .create("indicateur", "", Set.of("choix", "autre-choix"), "critere");
 
         indicateurCompatibleReference.accumulate(accumulator);
@@ -63,11 +79,16 @@ class IndicateurCommunCompatibleAccumulatorTest {
         accumulator.metAJour();
 
         // ASSERT
-        assertThat(indicateurCommunCompatibles).isEmpty();
-
-        assertThat(addChoixCommun).isEmpty();
+        assertThat(addIndicateurCommunCompatibles).isEmpty();
 
         assertThat(removeIndicateurCommunCompatibles)
+            .containsExactly("indicateur");
+
+        assertThat(addChoixCommuns).isEmpty();
+
+        assertThat(addIndicateurCommuns).isEmpty();
+
+        assertThat(removeIndicateurCommuns)
             .containsExactly("indicateur");
     }
 }

@@ -11,6 +11,7 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
+import static org.rd.developpement.accumulate.IndicateurReferenceFactory.INDICATEUR_REFERENCE_FACTORY;
 
 class IndicateurCommunAccumulatorTest {
     private Set<IndicateurCommun> addIndicateurCommun;
@@ -25,13 +26,13 @@ class IndicateurCommunAccumulatorTest {
         removeIndicateurCommun = new HashSet<>();
         addChoixCommun = new HashSet<>();
 
-        accumulator = new IndicateurCommunAccumulator(addIndicateurCommun::addAll, removeIndicateurCommun::addAll, addChoixCommun::addAll);
+        accumulator = new ClientIndicateurCommunAccumulator(addIndicateurCommun::addAll, removeIndicateurCommun::addAll, addChoixCommun::addAll);
     }
 
     @Test
     void ajouteUneReferenceLorsDeLAccumulation() {
         // ARRANGE
-        IndicateurReference indicateurReference = IndicateurReferenceFactory.INSTANCE
+        IndicateurReference indicateurReference = INDICATEUR_REFERENCE_FACTORY
             .create("indicateur", "reference", Set.of("choix", "autre-choix"));
 
         indicateurReference.accumulate(accumulator);
@@ -45,7 +46,7 @@ class IndicateurCommunAccumulatorTest {
             .containsExactly(tuple("indicateur", "reference"));
 
         assertThat(addChoixCommun)
-            .extracting(ChoixCommun::getIndicateur, ChoixCommun::getChoixId, ChoixCommun::getReferenceChoix)
+            .extracting(ChoixCommun::getIndicateur, ChoixCommun::getChoix, ChoixCommun::getReferenceChoix)
             .containsExactlyInAnyOrder(
                 tuple("indicateur", "reference", "choix"),
                 tuple("indicateur", "reference", "autre-choix"));
@@ -56,7 +57,7 @@ class IndicateurCommunAccumulatorTest {
     @Test
     void supprimeUneReferenceLorsDeLAccumulation() {
         // ARRANGE
-        IndicateurReference indicateurReference = IndicateurReferenceFactory.INSTANCE
+        IndicateurReference indicateurReference = INDICATEUR_REFERENCE_FACTORY
             .create("indicateur", "", Set.of("choix", "autre-choix"));
 
         indicateurReference.accumulate(accumulator);

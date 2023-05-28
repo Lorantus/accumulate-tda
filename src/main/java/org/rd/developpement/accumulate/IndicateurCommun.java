@@ -9,10 +9,12 @@ public class IndicateurCommun {
         this.reference = reference;
     }
 
+    // Test only
     public String getIndicateur() {
         return indicateur;
     }
 
+    // Test only
     public String getReference() {
         return reference;
     }

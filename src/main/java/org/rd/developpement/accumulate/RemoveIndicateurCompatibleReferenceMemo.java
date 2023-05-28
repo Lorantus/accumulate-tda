@@ -10,11 +10,14 @@ class RemoveIndicateurCompatibleReferenceMemo implements IndicateurCommunCompati
     }
 
     @Override
-    public void allocate(Set<IndicateurCommunCompatible> indicateurToPut, Set<ChoixCommun> addChoixCommun) {
+    public void allocate(Set<IndicateurCommunCompatible> indicateurToPut, IndicateurCommunAccumulator indicateurCommunAccumulator) {
+        // Noop
     }
 
     @Override
-    public void release(Set<String> indicateurToRemove) {
+    public void release(Set<String> indicateurToRemove, IndicateurCommunAccumulator indicateurCommunAccumulator) {
+        IndicateurCommunMemo indicateurCommunMemo = new RemoveIndicateurReferenceMemo(indicateur);
+        indicateurCommunAccumulator.remove(indicateurCommunMemo);
         indicateurToRemove.add(indicateur);
     }
 }

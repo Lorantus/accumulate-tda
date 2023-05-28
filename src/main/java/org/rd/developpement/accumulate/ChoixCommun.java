@@ -2,23 +2,26 @@ package org.rd.developpement.accumulate;
 
 public class ChoixCommun {
     private final String indicateur;
-    private final String choixId;
+    private final String choix;
     private final String referenceChoix;
 
-    ChoixCommun(String indicateur, String choixId, String referenceChoix) {
+    ChoixCommun(String indicateur, String choix, String referenceChoix) {
         this.indicateur = indicateur;
-        this.choixId = choixId;
+        this.choix = choix;
         this.referenceChoix = referenceChoix;
     }
 
+    // Test only
     public String getIndicateur() {
         return indicateur;
     }
 
-    public String getChoixId() {
-        return choixId;
+    // Test only
+    public String getChoix() {
+        return choix;
     }
 
+    // Test only
     public String getReferenceChoix() {
         return referenceChoix;
     }

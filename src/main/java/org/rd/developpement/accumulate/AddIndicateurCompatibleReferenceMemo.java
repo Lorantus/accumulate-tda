@@ -2,7 +2,7 @@ package org.rd.developpement.accumulate;
 
 import java.util.Set;
 
-import static java.util.stream.Collectors.toSet;
+import static org.rd.developpement.accumulate.IndicateurReferenceFactory.INDICATEUR_REFERENCE_FACTORY;
 
 class AddIndicateurCompatibleReferenceMemo implements IndicateurCommunCompatibleMemo {
     private final String indicateur;
@@ -18,16 +18,15 @@ class AddIndicateurCompatibleReferenceMemo implements IndicateurCommunCompatible
     }
 
     @Override
-    public void allocate(Set<IndicateurCommunCompatible> indicateurToPut, Set<ChoixCommun> addChoixCommun) {
-        indicateurToPut.add(new IndicateurCommunCompatible(indicateur, reference, critere));
-        Set<ChoixCommun> references = referenceChoix.stream()
-            .map(referenceChoix -> new ChoixCommun(indicateur, reference, referenceChoix))
-            .collect(toSet());
-        addChoixCommun.addAll(references);
+    public void allocate(Set<IndicateurCommunCompatible> indicateurCompatibleToPut, IndicateurCommunAccumulator indicateurCommunAccumulator) {
+        IndicateurReference indicateurReference = INDICATEUR_REFERENCE_FACTORY.create(indicateur, reference, referenceChoix);
+        indicateurReference.accumulate(indicateurCommunAccumulator);
+
+        indicateurCompatibleToPut.add(new IndicateurCommunCompatible(indicateur, reference, critere));
     }
 
     @Override
-    public void release(Set<String> indicateurToRemove) {
-        indicateurToRemove.add(indicateur);
+    public void release(Set<String> indicateurToRemove, IndicateurCommunAccumulator indicateurCommunAccumulator) {
+        // Noop
     }
 }
